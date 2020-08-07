@@ -2,7 +2,7 @@
 
 The most accurate sticky polyfill out in the wild.
 
-Check out [the demo](http://wd.dizaina.net/en/scripts/polysticky/) and [use cases test page](http://wilddeer.github.io/polysticky/test/).
+Check out [the demo](http://wd.dizaina.net/en/scripts/polyficky/) and [use cases test page](http://trevonerd.github.io/polyficky/test/).
 
 ## What it does
 
@@ -33,7 +33,7 @@ Check out [the demo](http://wd.dizaina.net/en/scripts/polysticky/) and [use case
     <a href="#feature-requests">Feature requests</a>&nbsp;&nbsp;
     <a href="#bug-reports">Bug reports</a>&nbsp;&nbsp;
     <a href="#contributing">Contributing</a>&nbsp;&nbsp;
-    <a href="#using-polysticky">Buy me a beer</a>
+    <a href="#using-polyficky">Buy me a beer</a>
 </p>
 
 ----
@@ -43,29 +43,29 @@ Check out [the demo](http://wd.dizaina.net/en/scripts/polysticky/) and [use case
 ### NPM
 
 ```
-npm install polysticky --save
+npm install polyficky --save
 ```
 
 ### Yarn
 
 ```
-yarn add polysticky
+yarn add polyficky
 ```
 
 ### Raw ES6 module
 
-[polysticky.es6.js](https://raw.github.com/wilddeer/polysticky/master/dist/polysticky.es6.js)
+[polyficky.js](https://raw.github.com/trevonerd/polyficky/master/dist/polyficky.js)
 
 ### Old fashioned
 
-Download minified production ES5 script:
+Download minified production script:
 
-[polysticky.min.js](https://raw.github.com/wilddeer/polysticky/master/dist/polysticky.min.js)
+[polyficky.min.js](https://raw.github.com/trevonerd/polyficky/master/dist/polyficky.min.js)
 
 Include it on your page:
 
 ```html
-<script src="path/to/polysticky.min.js"></script>
+<script src="path/to/polyficky.min.js"></script>
 ```
 
 ## Usage
@@ -92,14 +92,14 @@ JS:
 
 ```js
 var elements = document.querySelectorAll('.sticky');
-PolySticky.add(elements);
+Polyficky.add(elements);
 ```
 
 or JS + jQuery:
 
 ```js
 var elements = $('.sticky');
-PolySticky.add(elements);
+Polyficky.add(elements);
 ```
 
 Also worth having a clearfix:
@@ -118,29 +118,29 @@ Also worth having a clearfix:
 - You can push sticky’s bottom limit up or down by specifying positive or negative `margin-bottom`.
 - Any non-default value (not `visible`) for `overflow`, `overflow-x`, or `overflow-y` on any of the ancestor elements anchors the sticky to the overflow context of that ancestor. Simply put, scrolling the ancestor will cause the sticky to stick, scrolling the window will not. This is expected with `overflow: auto` and `overflow: scroll`, but often causes confusion with `overflow: hidden`. Keep this in mind, folks!
 
-Check out [the test page](http://wilddeer.github.io/polysticky/test/) to understand stickies better.
+Check out [the test page](http://trevonerd.github.io/polyficky/test/) to understand stickies better.
 
 ## API
 
-### `PolySticky`
+### `Polyficky`
 
-#### `PolySticky.addOne(element)`
+#### `Polyficky.addOne(element, customOffset = 0)`
 
 `element` – `HTMLElement` or iterable element list ([`NodeList`](https://developer.mozilla.org/en/docs/Web/API/NodeList), jQuery collection, etc.). First element of the list is used.
 
-Adds the element as a sticky. Returns new [Sticky](#polystickysticky) instance associated with the element.
+Adds the element as a sticky. Returns new [Sticky](#polyfickysticky) instance associated with the element.
 
-If there’s a sticky associated with the element, returns existing [Sticky](#polystickysticky) instance instead.
+If there’s a sticky associated with the element, returns existing [Sticky](#polyfickysticky) instance instead.
 
-#### `PolySticky.add(elementList)`
+#### `Polyficky.add(elementList)`
 
 `elementList` – iterable element list ([`NodeList`](https://developer.mozilla.org/en/docs/Web/API/NodeList), jQuery collection, etc.) or single `HTMLElement`.
 
 Adds the elements as stickies. Skips the elements that have stickies associated with them.
 
-Returns an array of [Sticky](#polystickysticky) instances associated with the elements (both existing and new ones).
+Returns an array of [Sticky](#polyfickysticky) instances associated with the elements (both existing and new ones).
 
-#### `PolySticky.refreshAll()`
+#### `Polyficky.refreshAll()`
 
 Refreshes all existing stickies, updates their parameters and positions.
 
@@ -148,36 +148,36 @@ All stickies are automatically refreshed after window resizes and device orienta
 
 There’s also a fast but not very accurate layout change detection that triggers this method. Call this method manually in case automatic detection fails.
 
-#### `PolySticky.removeOne(element)`
+#### `Polyficky.removeOne(element)`
 
 `element` – `HTMLElement` or iterable element list ([`NodeList`](https://developer.mozilla.org/en/docs/Web/API/NodeList), jQuery collection, etc.). First element of the list is used.
 
 Removes sticky associated with the element.
 
-#### `PolySticky.remove(elementList)`
+#### `Polyficky.remove(elementList)`
 
 `elementList` – iterable element list ([`NodeList`](https://developer.mozilla.org/en/docs/Web/API/NodeList), jQuery collection, etc.) or single `HTMLElement`.
 
 Removes stickies associated with the elements in the list.
 
-#### `PolySticky.removeAll()`
+#### `Polyficky.removeAll()`
 
 Removes all existing stickies.
 
-#### `PolySticky.forceSticky()`
+#### `Polyficky.forceSticky()`
 
 Force-enable the polyfill, even if the browser supports `position: sticky` natively.
 
-#### `PolySticky.stickies`
+#### `Polyficky.stickies`
 
-Array of existing [Sticky](#PolySticky.Sticky) instances.
+Array of existing [Sticky](#Polyficky.Sticky) instances.
 
-### `PolySticky.Sticky`
+### `Polyficky.Sticky`
 
 Sticky class. You can use it directly if you want:
 
 ```js
-const sticky = new PolySticky.Sticky(element);
+const sticky = new Polyficky.Sticky(element);
 ```
 
 Throws an error if there’s a sticky already bound to the element.
@@ -194,19 +194,19 @@ Removes the sticky. Restores the element to its original state.
 
 ### TL;DR
 
-These features will never be implemented in PolySticky:
+These features will never be implemented in Polyficky:
 
 - Callbacks for sticky state changes
 - Switching classes between different sticky states
 - Other features that add non-standard functionality
 
-If your request isn’t about one of these, you are welcome to [create an issue](https://github.com/wilddeer/polysticky/issues/new). Please check [existing issues](https://github.com/wilddeer/polysticky/issues) before creating new one.
+If your request isn’t about one of these, you are welcome to [create an issue](https://github.com/trevonerd/polyficky/issues/new). Please check [existing issues](https://github.com/trevonerd/polyficky/issues) before creating new one.
 
 ### Some reasoning
 
-PolySticky is a [polyfill](https://en.wikipedia.org/wiki/Polyfill). This means that it implements a feature (sticky positioning in this case) that already exists in some browsers natively, and allows to use this feature in the browsers that don’t support it yet and older versions of the browsers that didn’t support it at the time. This is its only purpose.
+Polyficky is a [polyfill](https://en.wikipedia.org/wiki/Polyfill). This means that it implements a feature (sticky positioning in this case) that already exists in some browsers natively, and allows to use this feature in the browsers that don’t support it yet and older versions of the browsers that didn’t support it at the time. This is its only purpose.
 
-This also means that PolySticky does nothing in the browsers that _do_ support sticky positioning. Which, in turn, means that those browsers won’t support any additional non-standard features.
+This also means that Polyficky does nothing in the browsers that _do_ support sticky positioning. Which, in turn, means that those browsers won’t support any additional non-standard features.
 
 ## Bug reports
 
@@ -225,7 +225,7 @@ Ok, you are all set.
 
 ### Building and testing
 
-`cd` into the repo folder and run `grunt`. It will build the project from `/src/polysticky.js` into `/dist` and run the watcher that will rebuild the project every time you change something in the source file.
+`cd` into the repo folder and run `grunt`. It will build the project from `/src/polyficky.js` into `/dist` and run the watcher that will rebuild the project every time you change something in the source file.
 
 Make changes to the source file. Stick to ES6 syntax.
 
@@ -239,7 +239,7 @@ Make a pull request 👍
 
 Use [Yarn](https://yarnpkg.com/), dont’t forget to commit `yarn.lock`.
 
-## Using PolySticky?
+## Using Polyficky?
 
 🍻 [Buy original author a beer](https://www.paypal.me/wilddeer/3usd)
 
