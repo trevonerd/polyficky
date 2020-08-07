@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         banner:
 `/*!
-  * Stickyfill – \`position: sticky\` polyfill
+  * PolySticky – \`position: sticky\` polyfill
   * v. <%= pkg.version %> | <%= pkg.homepage %>
   * MIT License
   */
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/stickyfill.js': 'src/stickyfill.js'
+                    'dist/polysticky.js': 'src/polysticky.js'
                 }
             }
         },
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                     indent: '    '
                 },
                 files: {
-                    'dist/stickyfill.js': ['dist/stickyfill.js']
+                    'dist/polysticky.js': ['dist/polysticky.js']
                 }
             },
             es6: {
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
                     ]
                 },
                 files: {
-                    'dist/stickyfill.es6.js': ['src/stickyfill.js']
+                    'dist/polysticky.es6.js': ['src/polysticky.js']
                 }
             }
         },
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/stickyfill.min.js': ['dist/stickyfill.js']
+                    'dist/polysticky.min.js': ['dist/polysticky.js']
                 }
             }
         },

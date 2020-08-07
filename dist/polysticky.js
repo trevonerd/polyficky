@@ -1,10 +1,16 @@
 /*!
-  * Stickyfill – `position: sticky` polyfill
-  * v. 2.1.0 | https://github.com/wilddeer/stickyfill
+  * PolySticky – `position: sticky` polyfill
+  * v. 1.0.0 | https://github.com/trevonerd/polysticky
   * MIT License
   */
 
 ;(function(window, document) {
+    /*!
+      * PolySticky (Stickyfill Reborn) – `position: sticky` polyfill
+      * v. 2.1.0 | https://github.com/trevonerd/polysticky
+      * MIT License
+      */
+    
     'use strict';
     
     /*
@@ -87,16 +93,19 @@
     
     var Sticky = function () {
         function Sticky(node) {
+            var customOffset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+    
             _classCallCheck(this, Sticky);
     
             if (!(node instanceof HTMLElement)) throw new Error('First argument must be HTMLElement');
             if (stickies.some(function (sticky) {
                 return sticky._node === node;
-            })) throw new Error('Stickyfill is already applied to this node');
+            })) throw new Error('PolySticky is already applied to this node');
     
             this._node = node;
             this._stickyMode = null;
             this._active = false;
+            this._customOffset = customOffset;
     
             stickies.push(this);
     
@@ -180,7 +189,7 @@
     
                 var nodeTopValue = parseNumeric(nodeComputedProps.top);
                 this._limits = {
-                    start: nodeWinOffset.top + window.pageYOffset - nodeTopValue,
+                    start: nodeWinOffset.top + window.pageYOffset - nodeTopValue + this._customOffset,
                     end: parentWinOffset.top + window.pageYOffset + parentNode.offsetHeight - parseNumeric(parentComputedStyle.borderBottomWidth) - node.offsetHeight - nodeTopValue - parseNumeric(nodeComputedProps.marginBottom)
                 };
     
@@ -239,7 +248,7 @@
                             position: 'absolute',
                             left: this._offsetToParent.left + 'px',
                             right: this._offsetToParent.right + 'px',
-                            top: this._offsetToParent.top + 'px',
+                            top: this._offsetToParent.top - this._customOffset + 'px',
                             bottom: 'auto',
                             width: 'auto',
                             marginLeft: 0,
@@ -258,7 +267,7 @@
                             width: 'auto',
                             marginLeft: 0,
                             marginRight: 0,
-                            marginTop: 0
+                            marginTop: 0 - this._customOffset + 'px'
                         });
                         break;
     
@@ -268,7 +277,7 @@
                             left: this._offsetToParent.left + 'px',
                             right: this._offsetToParent.right + 'px',
                             top: 'auto',
-                            bottom: 0,
+                            bottom: 0 + this._customOffset + 'px',
                             width: 'auto',
                             marginLeft: 0,
                             marginRight: 0
@@ -336,11 +345,11 @@
     }();
     
     /*
-     * 5. Stickyfill API
+     * 5. PolySticky API
      */
     
     
-    var Stickyfill = {
+    var PolySticky = {
         stickies: stickies,
         Sticky: Sticky,
     
@@ -350,7 +359,7 @@
     
             this.refreshAll();
         },
-        addOne: function addOne(node) {
+        addOne: function addOne(node, customOffset) {
             // Check whether it’s a node
             if (!(node instanceof HTMLElement)) {
                 // Maybe it’s a node list of some sort?
@@ -358,14 +367,14 @@
                 if (node.length && node[0]) node = node[0];else return;
             }
     
-            // Check if Stickyfill is already applied to the node
+            // Check if PolySticky is already applied to the node
             // and return existing sticky
             for (var i = 0; i < stickies.length; i++) {
                 if (stickies[i]._node === node) return stickies[i];
             }
     
             // Create and return new sticky
-            return new Sticky(node);
+            return new Sticky(node, customOffset);
         },
         add: function add(nodeList) {
             // If it’s a node make an array of one node
@@ -386,7 +395,7 @@
                     return 'continue';
                 }
     
-                // If Stickyfill is already applied to the node
+                // If PolySticky is already applied to the node
                 // add existing sticky
                 if (stickies.some(function (sticky) {
                     if (sticky._node === node) {
@@ -474,7 +483,7 @@
                 scroll.top = window.pageYOffset;
                 scroll.left = window.pageXOffset;
     
-                Stickyfill.refreshAll();
+                PolySticky.refreshAll();
             } else if (window.pageYOffset != scroll.top) {
                 scroll.top = window.pageYOffset;
                 scroll.left = window.pageXOffset;
@@ -490,8 +499,8 @@
         window.addEventListener('scroll', checkScroll);
     
         // Watch for window resizes and device orientation changes and trigger refresh
-        window.addEventListener('resize', Stickyfill.refreshAll);
-        window.addEventListener('orientationchange', Stickyfill.refreshAll);
+        window.addEventListener('resize', PolySticky.refreshAll);
+        window.addEventListener('orientationchange', PolySticky.refreshAll);
     
         //Fast dirty check for layout changes every 500ms
         var fastCheckTimer = void 0;
@@ -535,12 +544,12 @@
     if (!seppuku) init();
     
     /*
-     * 7. Expose Stickyfill
+     * 7. Expose PolySticky
      */
     if (typeof module != 'undefined' && module.exports) {
-        module.exports = Stickyfill;
+        module.exports = PolySticky;
     } else if (isWindowDefined) {
-        window.Stickyfill = Stickyfill;
+        window.PolySticky = PolySticky;
     }
     
 })(window, document);

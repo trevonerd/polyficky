@@ -1,20 +1,20 @@
 {
-  "name": "stickyfilljs",
-  "version": "2.1.0",
-  "description": "Polyfill for CSS `position: sticky`",
+  "name": "polysticky",
+  "version": "1.0.0",
+  "description": "Polyfill for CSS `position: sticky (Stickyfill Reborn!)`",
   "keywords": [
     "sticky",
     "polyfill"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/wilddeer/stickyfill",
+  "homepage": "https://github.com/trevonerd/polysticky",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wilddeer/stickyfill.git"
+    "url": "https://github.com/trevonerd/polysticky.git"
   },
   "author": {
-    "name": "Oleg Korsunsky",
-    "url": "https://github.com/wilddeer"
+    "name": "Marco Trevisani",
+    "url": "https://github.com/trevonerd"
   },
   "main": "dist/stickyfill.js",
   "types": "types/index.d.ts",
