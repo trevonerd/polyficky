@@ -170,7 +170,7 @@ var Sticky = /*#__PURE__*/function () {
       var nodeTopValue = parseNumeric(nodeComputedProps.top);
       this._limits = {
         start: nodeWinOffset.top + window.pageYOffset - nodeTopValue + this._customOffset,
-        end: parentWinOffset.top + window.pageYOffset + parentNode.offsetHeight - parseNumeric(parentComputedStyle.borderBottomWidth) - node.offsetHeight - nodeTopValue - parseNumeric(nodeComputedProps.marginBottom)
+        end: parentWinOffset.top + window.pageYOffset + parentNode.offsetHeight - parseNumeric(parentComputedStyle.borderBottomWidth) - node.offsetHeight - nodeTopValue - parseNumeric(nodeComputedProps.marginBottom) + this._customOffset
       };
       /*
         * 5. Ensure that the node will be positioned relatively to the parent node

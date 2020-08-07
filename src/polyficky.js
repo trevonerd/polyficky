@@ -184,7 +184,7 @@ class Sticky {
             start: nodeWinOffset.top + window.pageYOffset - nodeTopValue + this._customOffset,
             end: parentWinOffset.top + window.pageYOffset + parentNode.offsetHeight -
                  parseNumeric(parentComputedStyle.borderBottomWidth) - node.offsetHeight -
-                 nodeTopValue - parseNumeric(nodeComputedProps.marginBottom),
+                 nodeTopValue - parseNumeric(nodeComputedProps.marginBottom) + this._customOffset,
         };
 
         /*
