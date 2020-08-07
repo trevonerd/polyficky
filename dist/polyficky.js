@@ -1,14 +1,14 @@
 /*!
   * Polyficky (Stickyfill Reborn) – `position: sticky` polyfill
-  * v. 2.1.0 | https://github.com/trevonerd/polyficky
+  * v. 1.0.0 | https://github.com/trevonerd/polyficky
   * MIT License
   */
 'use strict';
 /*
- * 1. Check if the browser supports `position: sticky` natively or is too old to run the polyfill.
- *    If either of these is the case set `seppuku` flag. It will be checked later to disable key features
- *    of the polyfill, but the API will remain functional to avoid breaking things.
- */
+  * 1. Check if the browser supports `position: sticky` natively or is too old to run the polyfill.
+  *    If either of these is the case set `seppuku` flag. It will be checked later to disable key features
+  *    of the polyfill, but the API will remain functional to avoid breaking things.
+  */
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -24,15 +24,17 @@ else {
     var testNode = document.createElement('div');
     if (['', '-webkit-', '-moz-', '-ms-'].some(function (prefix) {
       try {
-        testNode.style.position = prefix + 'sticky';
-      } catch (e) {}
+        testNode.style.position = "".concat(prefix, "sticky");
+      } catch (e) {
+        return false;
+      }
 
       return testNode.style.position != '';
     })) seppuku = true;
   }
 /*
- * 2. “Global” vars used across the polyfill
- */
+  * 2. “Global” vars used across the polyfill
+  */
 
 var isInitialized = false; // Check if Shadow Root constructor exists to make further checks simpler
 
@@ -45,12 +47,12 @@ var scroll = {
 
 var stickies = [];
 /*
- * 3. Utility functions
- */
+  * 3. Utility functions
+  */
 
 function extend(targetObj, sourceObject) {
   for (var key in sourceObject) {
-    if (sourceObject.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(sourceObject, key)) {
       targetObj[key] = sourceObject[key];
     }
   }
@@ -62,17 +64,18 @@ function parseNumeric(val) {
 
 function getDocOffsetTop(node) {
   var docOffsetTop = 0;
+  var nodeExists = node;
 
-  while (node) {
-    docOffsetTop += node.offsetTop;
-    node = node.offsetParent;
+  while (nodeExists) {
+    docOffsetTop += nodeExists.offsetTop;
+    nodeExists = nodeExists.offsetParent;
   }
 
   return docOffsetTop;
 }
 /*
- * 4. Sticky class
- */
+  * 4. Sticky class
+  */
 
 
 var Sticky = /*#__PURE__*/function () {
@@ -100,8 +103,8 @@ var Sticky = /*#__PURE__*/function () {
       if (this._active) this._deactivate();
       var node = this._node;
       /*
-       * 1. Save node computed props
-       */
+        * 1. Save node computed props
+        */
 
       var nodeComputedStyle = getComputedStyle(node);
       var nodeComputedProps = {
@@ -115,22 +118,22 @@ var Sticky = /*#__PURE__*/function () {
         cssFloat: nodeComputedStyle.cssFloat
       };
       /*
-       * 2. Check if the node can be activated
-       */
+        * 2. Check if the node can be activated
+        */
 
       if (isNaN(parseFloat(nodeComputedProps.top)) || nodeComputedProps.display == 'table-cell' || nodeComputedProps.display == 'none') return;
       this._active = true;
       /*
-       * 3. Check if the current node position is `sticky`. If it is, it means that the browser supports sticky positioning,
-       *    but the polyfill was force-enabled. We set the node’s position to `static` before continuing, so that the node
-       *    is in it’s initial position when we gather its params.
-       */
+        * 3. Check if the current node position is `sticky`. If it is, it means that the browser supports sticky positioning,
+        *    but the polyfill was force-enabled. We set the node’s position to `static` before continuing, so that the node
+        *    is in it’s initial position when we gather its params.
+        */
 
       var originalPosition = node.style.position;
       if (nodeComputedStyle.position == 'sticky' || nodeComputedStyle.position == '-webkit-sticky') node.style.position = 'static';
       /*
-       * 4. Get necessary node parameters
-       */
+        * 4. Get necessary node parameters
+        */
 
       var referenceNode = node.parentNode;
       var parentNode = shadowRootExists && referenceNode instanceof ShadowRoot ? referenceNode.host : referenceNode;
@@ -170,8 +173,8 @@ var Sticky = /*#__PURE__*/function () {
         end: parentWinOffset.top + window.pageYOffset + parentNode.offsetHeight - parseNumeric(parentComputedStyle.borderBottomWidth) - node.offsetHeight - nodeTopValue - parseNumeric(nodeComputedProps.marginBottom)
       };
       /*
-       * 5. Ensure that the node will be positioned relatively to the parent node
-       */
+        * 5. Ensure that the node will be positioned relatively to the parent node
+        */
 
       var parentPosition = parentComputedStyle.position;
 
@@ -179,23 +182,23 @@ var Sticky = /*#__PURE__*/function () {
         parentNode.style.position = 'relative';
       }
       /*
-       * 6. Recalc node position.
-       *    It’s important to do this before clone injection to avoid scrolling bug in Chrome.
-       */
+        * 6. Recalc node position.
+        *    It’s important to do this before clone injection to avoid scrolling bug in Chrome.
+        */
 
 
       this._recalcPosition();
       /*
-       * 7. Create a clone
-       */
+        * 7. Create a clone
+        */
 
 
       var clone = this._clone = {};
       clone.node = document.createElement('div'); // Apply styles to the clone
 
       extend(clone.node.style, {
-        width: nodeWinOffset.right - nodeWinOffset.left + 'px',
-        height: nodeWinOffset.bottom - nodeWinOffset.top + 'px',
+        width: "".concat(nodeWinOffset.right - nodeWinOffset.left, "px"),
+        height: "".concat(nodeWinOffset.bottom - nodeWinOffset.top, "px"),
         marginTop: nodeComputedProps.marginTop,
         marginBottom: nodeComputedProps.marginBottom,
         marginLeft: nodeComputedProps.marginLeft,
@@ -221,9 +224,9 @@ var Sticky = /*#__PURE__*/function () {
         case 'start':
           extend(this._node.style, {
             position: 'absolute',
-            left: this._offsetToParent.left + 'px',
-            right: this._offsetToParent.right + 'px',
-            top: this._offsetToParent.top - this._customOffset + 'px',
+            left: "".concat(this._offsetToParent.left, "px"),
+            right: "".concat(this._offsetToParent.right, "px"),
+            top: "".concat(this._offsetToParent.top - this._customOffset, "px"),
             bottom: 'auto',
             width: 'auto',
             marginLeft: 0,
@@ -235,24 +238,24 @@ var Sticky = /*#__PURE__*/function () {
         case 'middle':
           extend(this._node.style, {
             position: 'fixed',
-            left: this._offsetToWindow.left + 'px',
-            right: this._offsetToWindow.right + 'px',
+            left: "".concat(this._offsetToWindow.left, "px"),
+            right: "".concat(this._offsetToWindow.right, "px"),
             top: this._styles.top,
             bottom: 'auto',
             width: 'auto',
             marginLeft: 0,
             marginRight: 0,
-            marginTop: 0 - this._customOffset + 'px'
+            marginTop: "".concat(0 - this._customOffset, "px")
           });
           break;
 
         case 'end':
           extend(this._node.style, {
             position: 'absolute',
-            left: this._offsetToParent.left + 'px',
-            right: this._offsetToParent.right + 'px',
+            left: "".concat(this._offsetToParent.left, "px"),
+            right: "".concat(this._offsetToParent.right, "px"),
             top: 'auto',
-            bottom: 0 + this._customOffset + 'px',
+            bottom: "".concat(0 + this._customOffset, "px"),
             width: 'auto',
             marginLeft: 0,
             marginRight: 0
@@ -315,8 +318,8 @@ var Sticky = /*#__PURE__*/function () {
   return Sticky;
 }();
 /*
- * 5. Polyficky API
- */
+  * 5. Polyficky API
+  */
 
 
 var Polyficky = {
@@ -327,8 +330,9 @@ var Polyficky = {
     init();
     this.refreshAll();
   },
-  addOne: function addOne(node, customOffset) {
-    // Check whether it’s a node
+  addOne: function addOne(element, customOffset) {
+    var node = element; // Check whether it’s a node
+
     if (!(node instanceof HTMLElement)) {
       // Maybe it’s a node list of some sort?
       // Take first node from the list then
@@ -344,8 +348,9 @@ var Polyficky = {
 
     return new Sticky(node, customOffset);
   },
-  add: function add(nodeList) {
-    // If it’s a node make an array of one node
+  add: function add(elementList) {
+    var nodeList = elementList; // If it’s a node make an array of one node
+
     if (nodeList instanceof HTMLElement) nodeList = [nodeList]; // Check if the argument is an iterable of some sort
 
     if (!nodeList.length) return; // Add every element as a sticky and return an array of created Sticky instances
@@ -386,8 +391,9 @@ var Polyficky = {
       return sticky.refresh();
     });
   },
-  removeOne: function removeOne(node) {
-    // Check whether it’s a node
+  removeOne: function removeOne(element) {
+    var node = element; // Check whether it’s a node
+
     if (!(node instanceof HTMLElement)) {
       // Maybe it’s a node list of some sort?
       // Take first node from the list then
@@ -402,8 +408,9 @@ var Polyficky = {
       }
     });
   },
-  remove: function remove(nodeList) {
-    // If it’s a node make an array of one node
+  remove: function remove(elementList) {
+    var nodeList = elementList; // If it’s a node make an array of one node
+
     if (nodeList instanceof HTMLElement) nodeList = [nodeList]; // Check if the argument is an iterable of some sort
 
     if (!nodeList.length) return; // Remove the stickies bound to the nodes in the list
@@ -429,8 +436,8 @@ var Polyficky = {
   }
 };
 /*
- * 6. Setup events (unless the polyfill was disabled)
- */
+  * 6. Setup events (unless the polyfill was disabled)
+  */
 
 function init() {
   if (isInitialized) {
@@ -499,8 +506,8 @@ function init() {
 
 if (!seppuku) init();
 /*
- * 7. Expose Polyficky
- */
+  * 7. Expose Polyficky
+  */
 
 if (typeof module != 'undefined' && module.exports) {
   module.exports = Polyficky;
