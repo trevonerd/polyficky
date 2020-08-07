@@ -24,11 +24,11 @@
         "lint": "eslint src",
         "test": "echo \"Error: no test specified\" && exit 1",
         "integrity:check": "yarn check --integrity",
-        "prepack": "yarn build"
+        "prepack": "yarn lint && yarn integrity:check && yarn build"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "yarn lint && yarn integrity:check"
+            "pre-commit": "yarn lint && yarn integrity:check && yarn build"
         }
     },
     "devDependencies": {
@@ -38,7 +38,7 @@
         "@babel/preset-env": "^7.10.4",
         "babel-eslint": "10.1.0",
         "babel-preset-minify": "^0.5.1",
-        "eslint": "7.4.0",
+        "eslint": "7.6.0",
         "husky": "^4.2.5"
     }
 }
