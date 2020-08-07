@@ -1,5 +1,5 @@
 {
-  "name": "polysticky",
+  "name": "@trevonerd/polysticky",
   "version": "1.0.0",
   "description": "Polyfill for CSS `position: sticky (Stickyfill Reborn!)`",
   "keywords": [
