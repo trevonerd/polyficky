@@ -245,7 +245,7 @@ var Sticky = /*#__PURE__*/function () {
             width: 'auto',
             marginLeft: 0,
             marginRight: 0,
-            marginTop: "".concat(0 - this._customOffset, "px")
+            marginTop: 0
           });
           break;
 

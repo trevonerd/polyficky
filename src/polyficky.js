@@ -263,7 +263,7 @@ class Sticky {
                     width: 'auto',
                     marginLeft: 0,
                     marginRight: 0,
-                    marginTop: `${0 - this._customOffset}px`,
+                    marginTop: 0,
                 });
                 break;
 
